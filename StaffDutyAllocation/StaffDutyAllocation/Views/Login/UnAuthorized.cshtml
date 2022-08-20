@@ -1,0 +1,22 @@
+﻿@model Common.ViewModels.UserVM
+<html>
+<head>
+
+</head>
+<body>
+    @{
+        if (Model.RoleId == 1)
+            {
+            @Html.ActionLink("HomePage","Index", "Admin")
+            }
+        else if (Model.RoleId == 2)
+            {
+            @Html.ActionLink("HomePage", "Index", "User")
+            }
+        else
+            {
+            @Html.ActionLink("HomePage", "Index", "Employee")
+            }
+    }
+</body>
+</html>

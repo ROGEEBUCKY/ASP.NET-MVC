@@ -1,0 +1,32 @@
+[
+  {
+    "Id": 1,
+    "Name": "Rituraj",
+    "Email": "RiturajPokhriyal2311@gmail.com",
+    "Password": "Rituraj2311"
+  },
+  {
+    "Id": 2,
+    "Name": "Rituraj",
+    "Email": "RiturajPokhriyal2311@gmail.com",
+    "Password": "12345"
+  },
+  {
+    "Id": 3,
+    "Name": "Rituraj",
+    "Email": "RiturajPokhriyal2311@gmail.com",
+    "Password": "re"
+  },
+  {
+    "Id": 4,
+    "Name": "Rituraj",
+    "Email": "RiturajPokhriyal2311@gmail.com",
+    "Password": "1234"
+  },
+  {
+    "Id": 0,
+    "Name": "Rituraj",
+    "Email": "RiturajPokhriyal2311@gmail.com",
+    "Password": null
+  }
+]

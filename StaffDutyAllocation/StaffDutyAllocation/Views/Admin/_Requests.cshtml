@@ -1,0 +1,72 @@
+﻿@model List<Common.ViewModels.RequestVM>
+@using Common.ViewModels
+@{
+    List<EmployeeMessagesVM> uList = ViewBag.msgUserList;
+    ViewBag.Message = ViewBag.firstusermessages;
+}
+<div class="card">
+    <div class="card-header">
+        <h2>Employee Requests</h2>
+    </div>
+    <div class="card-body d-flex" id="requestarea">
+        @foreach (var request in Model)
+            {
+            <div class="card">
+                <div class="card-header">
+                    <h3>@request.UserName Request</h3>
+                </div>
+                <div class="card-body">
+                    <p><b>Request Time:</b>@request.CreatedDate.ToShortTimeString()</p>
+                    <p><b>Request for Duty:</b>@request.Dutyname</p>
+                </div>
+                <div class="card-footer">
+                    <button id="@request.Id" class="btn btn-success acceptbtn">Accept Request</button>
+                    <button id="@request.Id" class="btn btn-danger rejectbtn">Reject Request</button>
+                </div>
+            </div>
+            }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#requestarea").on("click", ".acceptbtn", function () {
+            var btn = this;
+            $.ajax({
+                type: "POST", //Method type
+                url: "/Admin/AcceptRequest", //url to load partial view
+                contents: "",
+                data: { requestId: btn.id }, //send student id
+                success: function (response) {
+                    $("#renderpage").html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText)
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+
+            });
+        });
+        $("#requestarea").on("click", ".rejectbtn", function () {
+            var btn = this;
+            $.ajax({
+                type: "POST", //Method type
+                url: "/Admin/RejectRequest", //url to load partial view
+                contents: "",
+                data: { requestId: btn.id }, //send student id
+                success: function (response) {
+                    $("#renderpage").html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText)
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+
+            });
+        });
+    });
+</script>

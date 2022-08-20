@@ -1,0 +1,56 @@
+﻿@model Common.ViewModels.UserVM
+<div class="d-flex justify-content-evenly align-items-start p-5">
+    <div class="shadow-lg card col-md-4 profile">
+        <div class="card-header">
+            <h3>User Details</h3>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <tr>
+                    <td>Name</td>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>@Model.Email</td>
+                </tr>
+                <tr>
+                    <td>Phone Nnumber</td>
+                    <td>@Model.PhoneNumber</td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td>@Model.Address</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>@Model.City</td>
+                </tr>
+                <tr>
+                    <td>State</td>
+                    <td>@Model.State</td>
+                </tr>
+                <tr>
+                    <td>Zip Code</td>
+                    <td>@Model.Zip</td>
+                </tr>
+            </table>
+            <hr />
+            <button class="btn btn-secondary" id="editbtn">Edit</button>
+        </div>
+    </div>
+    <div class="card shadow-lg  orderlist">
+        <div class="card-header">
+            <h2>User Orders</h2>
+        </div>
+        <div class="card-body overflow-auto">
+            <ol class="list-group list-group-numbered">
+                @foreach(var order in Model.UserOrders)
+                {
+                 <li class="list-group-item">Order of @order.OrderDetailsList.Count() items on @order.Created : &#8377; @order.Amount</li>
+                }
+            </ol>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/User/Profile.js" defer></script>

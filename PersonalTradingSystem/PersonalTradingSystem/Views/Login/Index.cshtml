@@ -1,0 +1,53 @@
+﻿@model Common.ViewModels.LoginVM
+@{
+    ViewBag.Title = "Login";
+}
+<section id="loginSection" class="message p-5">
+    <div class="d-flex container-fluid justify-content-center align-items-center" style="height:100%">
+        <div class="card w-50 p-3">
+            <h2 class="text-center">Login Form</h2>
+            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "card-body", @id = "LogForm" }))
+                {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <button class=" btn btn-primary my-2" type="submit" id="submitbtn">Submit</button>
+                    @Html.ActionLink("New User? Register", "Register", null, new { @class = "btn btn-outline-primary" })
+                </div>
+                }
+        </div>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#submitbtn").click(function (e) {
+            if ($("#LogForm").valid() == false) {
+                $.toast({
+                    heading: 'Error',
+                    text: 'Please fill all inputs',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    position: 'top-center',
+                });
+            }
+        });
+    });
+</script>
+
+
+

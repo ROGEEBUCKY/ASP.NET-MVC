@@ -1,0 +1,66 @@
+﻿@model Common.ViewModels.LoginVM
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet">
+    <link href="~/Content/Login/index.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar  navbar-light shadow-lg bg-dark p-3">
+        <div class="container">
+            @Html.ActionLink("Online Medicine", "Index", "Home", null, new { @class = "navbar-brand text-light" })
+        </div>
+    </nav>
+    <section id="loginSection" class="message p-5">
+        <div class="row container-fluid justify-content-center align-items-center">
+            <div class="card shadow-lg col-md-4 p-3">
+                <div class="logo my-3">
+                    <img src="~/Images/man.png" />
+                </div>
+                <h2 class="text-center">Login</h2>
+                @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "card-body", @id = "LogForm" }))
+                    {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group my-2">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group my-2">
+                        @Html.LabelFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center my-3">
+                        <button class=" btn btn-dark  mx-2" type="submit" id="submitbtn">Submit</button>
+                        @Html.ActionLink("New User? Register", "Register", "Login", null, new { @class = "btn btn-outline-dark" })
+                    </div>
+                    }
+            </div>
+
+        </div>
+    </section>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+</body>
+</html>
+
+
+

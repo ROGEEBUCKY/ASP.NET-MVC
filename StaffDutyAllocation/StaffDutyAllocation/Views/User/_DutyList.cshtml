@@ -1,0 +1,213 @@
+﻿@model Common.ViewModels.RosterVM
+<table id='dutytable'>
+    <thead>
+        <tr>
+            <td></td>
+            <td>Sno</td>
+            <td>Duty Name</td>
+            <td>Duty Type</td>
+            <td>Category</td>
+            <td>Created Date</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        var dutytable = $('#dutytable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    text: 'Send  Mail',
+                    className: "mailbtn",
+                    action: function (e, dt, node, config) {
+                        var data = dutytable.rows('.selected').data();
+                        var ids = [];
+                        for (var i = 0; i < data.length; i++) {
+                            ids.push(data[i].UserId)
+                        }
+                        if (ids.length != 0) {
+                            $.ajax({
+                                type: "POST",
+                                beforeSend: function () {
+                                    $('.ajax-loader').css("visibility", "visible");
+                                },
+                                url: "/User/SendMailToEmployees",
+                                data: { "data": ids },
+                                success: function (response) {
+                                    dutytable.ajax.reload();
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Mail sent Successfully',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                },
+                                complete: function () {
+                                    $('.ajax-loader').css("visibility", "hidden");
+                                },
+                                failure: function (response) {
+                                    alert(response.responseText)
+                                },
+                                error: function (response) {
+                                    alert(response.responseText);
+                                }
+
+                            });
+                        }
+                       
+                    }
+                }
+            ],
+            scrollX: true,
+            scrollCollapse: false,
+            paging: true,
+            processing: true,
+            autoWidth: false,
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            ajax: {
+            'url': '/User/GetRosterDuties',
+            'data': { id : '@Model.Id'},
+            'type': 'POST',
+            'dataSrc': '',
+            },
+            columns: [
+                {  },
+                {},
+                { 'data': 'Name' },
+                { 'data': 'DutyTypeName' },
+                { 'data': 'CategoryName' },
+                { 'data': 'CreatedDate' },
+                { 'data': 'Id' }
+            ],
+            columnDefs: [
+                {
+                    render: function(data, type, row) {
+                        return "";
+                    },
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0
+                }, {
+                    render: function (data, type, row) {
+                        return moment(data).format('YYYY-MM-DD');
+                    },
+                    targets: 5
+                },
+                {
+                    render: function (data, type, row) {
+                        return data + 0;
+                    },
+                    targets: 1
+                },
+                {
+                    render: function (data, type, row) {
+                        var opt = "";
+                        $.each(row.Users, function (key, value) {
+                            opt += '<option value="'+value.Id+'">'+value.FirstName+' '+value.LastName +'</option>';
+                        });
+                        if (row.UserId == null) {
+                           opt += "<option selected val='null'>Assign Employee</option>";
+                        }
+                        else {
+                        opt += '<option value="' + row.UserId + '" selected>' + row.UserName+ '</option>';
+                        }
+                            var select = `<select id='` + data + `' class='form-select userassign id`+data+`' aria-label='Default select example'>
+                                `+ opt + `
+                            </select>`;
+                        return select;
+                    },
+                    targets: 6
+                }
+            ],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            order: [[1, 'asc']],
+        });
+        dutytable.on('order.dt search.dt', function () {
+            let i = 1;
+
+            dutytable.cells(null, 1, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+        dutytable.on('user-select', function (e, dt, type, cell, originalEvent) {
+            var a = dutytable.row(cell.node()).data().UserId;
+            if (a == null) {
+                e.preventDefault();
+            }
+        });
+        $("#dutytable").on("change", ".userassign", function () {
+            
+            var select = this;
+            if ($(select).val() == "null") {
+                $.toast({
+                    heading: 'Employee Not Selected',
+                    text: 'please select a user',
+                    icon: 'Error',
+                    loader: true,       
+                    loaderBg: '#9EC600' 
+                })
+                dutytable.ajax.reload();
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/User/CheckDutyAssignment",
+                    contents: "",
+                    data: { userId: $(select).val(),dutyId :select.id },
+                    success: function (response) {
+                        if (response == "true") {
+                            $.ajax({
+                                type: "POST",
+                                url: "/User/AssignUser",
+                                contents: "",
+                                data: { dutyId: select.id, userId: $(select).val(), rosterId:@Model.Id },
+                                success: function (response) {
+                                    dutytable.ajax.reload();
+                                },
+                                failure: function (response) {
+                                    alert(response.responseText)
+                                },
+                                error: function (response) {
+                                    alert(response.responseText);
+                                }
+
+                            });
+                        }
+                        else {
+                            $.toast({
+                                heading: 'Information',
+                                text: 'This Employee cant be assigned to this duty',
+                                icon: 'error',
+                                loader: true,
+                                showHideTransition: 'slide',
+                                loaderBg: '#9EC600',
+                                stack: 4,
+                                position: 'top-center',     
+                            })
+                            
+                            dutytable.ajax.reload();
+
+                        }
+                                },
+                        failure: function (response) {
+                            alert(response.responseText)
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        }
+                });
+            }
+        });
+    });
+
+</script>

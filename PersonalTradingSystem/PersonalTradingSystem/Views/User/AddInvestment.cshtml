@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewBag.Title = "AddInvestment";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div id="tablesection" style="margin:10px; padding:20px; text-align:center">
+    <h2 class="mb-5">Select the  fund from Which you want to invest: </h2>
+    <div style="margin:10px; display:flex; align-items:center; justify-content:center;">
+        <table id="tblFunds">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Fund ID</th>
+                    <th>Dated</th>
+                    <th>Amount</th>
+                    <th>Amount Used</th>
+                    <th>Fund Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="formSection">
+    @Html.Partial("_InvestmentForm")
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    $("#formSection").hide();
+    $(document).ready(function () {
+
+        var table = $('#tblFunds').DataTable({
+            scrollX: true,
+            scrollCollapse: false,
+            paging: true,
+            ajax: {
+                "url": "/User/GetFunds",
+                "type": "POST",
+                "dataType": "Json",
+            },
+            columns: [
+                {},
+                { "data": "FundId", "width": "12vw" },
+                { "data": "Dated", "width": "12vw" },
+                { "data": "FundAmount", "width": "12vw" },
+                { "data": "AmountUsed", "width": "12vw" },
+                { "data": "FundType", "width": "12vw" },
+                { "data": "FundId", "width": "12vw" }
+            ],
+            columnDefs: [
+                {
+                    render: function (data, type, row) {
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    },
+                    targets: 2
+                },
+                {
+                    render: function (data, type, row) {
+                        return data + 0;
+                    },
+                    targets: 0
+                },
+                {
+                    render: function (data, type, row) {
+                        return "<button id=" + data + " class='btn btn-success investbtn'>Invest</button>";
+                    },
+                    targets: 6
+                }
+            ],
+            order: [[1, 'asc']],
+        });
+        table.on('order.dt search.dt', function () {
+            let i = 1;
+
+            table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+
+        $("#tblFunds").on("click", ".investbtn", function () {
+            var button = this;
+            swal(
+                {
+                    title: "Are you sure?",
+                    text: "Do You realy want to invest using this fund( fund ID: " + button.id + ")",
+                    icon: "info",
+                    buttons: ["No, cancel it!", "Yes, I am sure!"],
+                }).then(function (result) {
+                    if (result) {
+                        swal("selected!!",
+                            {
+                                icon: "success",
+                                buttons: false,
+                                timer: 1000,
+                            });
+                        $("#tablesection").hide();
+
+
+                        $.ajax(
+                            {
+                                url: '/User/GetAFund/',
+                                data: { id: button.id },
+                                type: 'POST',
+                                dataType: 'json',
+                                success: function (data) {
+                                    $("#formSection").show();
+                                    $(".fundid").val(data.data.FundId);
+                                    $(".fundamount").val(data.data.FundAmount);
+                                    $(".Date").val(moment().format("YYYY-MM-DD HH:mm:ss"));
+
+                                }
+                            });
+                    }
+                    else {
+                        swal("cancelled!!",
+                            {
+                                icon: "warning",
+                                buttons: false,
+                                timer: 1000,
+                            });
+                    }
+                });
+        });
+
+    });
+</script>
+

@@ -1,0 +1,56 @@
+﻿@using Common.ViewModels
+@model Common.ViewModels.MessageVM
+@{
+    UserVM user = Session["User"] as UserVM;
+    List<MessageVM> mList = ViewBag.Message;
+    if (mList == null)
+        {
+        mList = new List<MessageVM>();
+        }
+}
+<div class="row justify-content-center">
+    <div class="card col-lg-8  mx-5">
+        <div class="card-header"><h3 class="text-center">Contact Admin</h3></div>
+        <div class="card-body d-flex flex-column-reverse overflow-auto" id="messagesarea">
+            @{
+                foreach (var message in mList)
+                    {
+                    if (message.Type == "user")
+                        {
+                        <div class="d-flex  justify-content-end m-2 ">
+                            <div class="bg-success text-white  px-4 p-2 rounded-pill overflow-hidden">@message.MessageText </div>
+                            <div class="col-1 justify-content-center text-muted">@message.CreatedTime.ToShortTimeString()</div>
+                        </div>
+                        }
+                    else
+                        {
+                        <div class="d-flex justify-content-start  m-2 ">
+                            <div class="col-1 text-muted">@message.CreatedTime.ToShortTimeString()</div>
+                            <div class="bg-secondary text-white rounded-pill px-4  p-2 ">@message.MessageText </div>
+                        </div>
+                        }
+                    }
+            }
+        </div>
+        <div class="card-footer ">
+            @using (Ajax.BeginForm("SendMessage", "Employee", null, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "renderpage", OnSuccess = "success", OnFailure = "success" }))
+                {
+                <div class="row justify-content-center">
+                    <div class="form-group col-sm-8">
+                        <div class="col-sm-12">
+                            @Html.EditorFor(model => model.MessageText, new { htmlAttributes = new { @class = "form-control rounded-pill", @placeholder = "message" } })
+                        </div>
+                        @Html.Hidden("UserId", user.Id)
+                        @Html.Hidden("Type", "user")
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <button class="btn btn-success" type="submit"><i class="fa-solid fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+                }
+        </div>
+    </div>
+
+</div>
+
+

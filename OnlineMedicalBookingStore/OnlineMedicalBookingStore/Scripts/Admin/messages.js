@@ -1,0 +1,3 @@
+﻿function messagesent() {
+    $("#MessageText").val('');
+}

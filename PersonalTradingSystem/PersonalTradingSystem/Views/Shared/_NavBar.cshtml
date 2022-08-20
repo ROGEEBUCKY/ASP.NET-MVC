@@ -1,0 +1,27 @@
+﻿
+<nav class="navbar navbar-expand-lg navbar-dark" style="background:black">
+    <div class="container-fluid">
+        @Html.ActionLink("RITURAJ TRADING", "Index", "Home", null, new { @class = "navbar-brand fs-3 text-primary" })
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+                </li>
+
+                <li class="nav-item">
+                    @Html.ActionLink("About", "About", "home", null, new { @class = "nav-link" })
+                </li>
+
+                <li class="nav-item">
+                    @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
+                </li>
+            </ul>
+            <div class="d-flex">
+                @Html.ActionLink("Start Trading", "Index", "User", null, new { @class = "btn btn-lg btn-outline-primary" })
+            </div>
+        </div>
+    </div>
+</nav>

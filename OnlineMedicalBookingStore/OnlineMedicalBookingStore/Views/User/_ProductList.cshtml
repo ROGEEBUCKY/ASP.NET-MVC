@@ -1,0 +1,75 @@
+﻿@model List<Common.ViewModels.ProductVM>
+
+<div class="container">
+    <div class="d-flex py-2 justify-content-evenly">
+        @if (Model.Count() <= 0)
+            {
+            <h2 class="text-muted">No Products found</h2>
+            }
+        else
+            {
+            <h2 class="">All Products</h2>
+
+            }
+    </div>
+    <div class="row d-flex justify-content-center " id="Aproducts">
+        @foreach (var products in Model)
+            {
+            <div class="col-12 col-md-3 m-2">
+                <div class="card border-light mb-4 animate-up-5">
+                    <a href="./single-space.html" class="position-relative">
+                        <img src="@products.Image" class="card-img-top border p-2 rounded-xl" width="100" height="200" alt="@products.Name">
+                    </a>
+                    <div class="card-body">
+                        <a>
+                            <h4 class="h5 card-title">@products.Name</h4>
+                            <p class="text-muted fs-6">@products.Description</p>
+                        </a>
+                        <ul class="card-text text-muted">
+                            <li>Original Price: @products.Price</li>
+                            <li>Discount: @products.Discount</li>
+                            @{
+                                if (products.Stock <= 0)
+                                    {
+                                    <li class="text-danger fs-5">Stock: Out of Stock</li>
+                                    }
+                                else
+                                    {
+                                    <li>Stock: @products.Stock</li>
+                                    }
+                            }
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-soft border-top">
+                        <div class="d-flex justify-content-between align-items-end">
+                            <div class="col pl-0 text-success">
+                                <span class="text-muted font-small d-block mb-2">Final Price</span>
+                                <span class="h5 fs-4 font-weight-bold"> &#8377; @products.FinalAmount</span>
+
+                            </div>
+                            <div class="col">
+                                <span class="text-muted font-small d-block mb-2">Remark</span>
+                                <span class="h5 text-dark font-weight-bold">@products.Remark.Name</span>
+                            </div>
+                            <div class="col pr-0">
+                                @{
+                                    if (products.Stock <= 0)
+                                        {
+                                        <button id="@products.Id" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i> cart</button>
+                                        }
+                                    else
+                                        {
+                                        <button id="@products.Id" class="btn btn-primary cart"><i class="fa-solid fa-cart-plus"></i> cart</button>
+                                        }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+    </div>
+   
+   
+</div>
+<script src="~/Scripts/User/products.js" defer></script>

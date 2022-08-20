@@ -1,0 +1,50 @@
+﻿@using Common.ViewModels
+@model Common.ViewModels.MessageVM
+@{
+    List<MessageVM> mList = ViewBag.Message;
+    if (mList == null)
+        {
+        mList = new List<MessageVM>();
+        }
+    int uid = 0;
+}
+<div>@ViewBag.userName</div>
+<hr />
+<div class=" d-flex flex-column-reverse overflow-auto" id="usermessagesarea">
+    @{
+        foreach (var message in mList)
+            {
+            if (message.Type == "user")
+                {
+                <div class="d-flex justify-content-end m-2">
+                    <div class="bg-secondary text-white px-4  p-2 rounded-pill">@message.MessageText </div>
+                    <div class="justify-content-end ms-2">@message.CreatedTime.ToShortTimeString()</div>
+                </div>
+                }
+            else
+                {
+                <div class="d-flex justify-content-start px-4 m-2">
+                    <div class=" justify-content-start me-2">@message.CreatedTime.ToShortTimeString()</div>
+                    <div class="bg-success text-white  p-2 rounded-pill">@message.MessageText </div>
+                </div>
+                }
+            uid = message.UserId;
+            }
+    }
+</div>
+@using (Ajax.BeginForm("SendMessage", "Admin", new { @id = uid }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "messagearea", OnSuccess = "messagesent", OnFailure = "messagesent" }, null))
+    {
+    <div class="row justify-content-center">
+        <div class="form-group col-sm-8">
+            <div class="col-sm-12">
+                @Html.EditorFor(model => model.MessageText, new { htmlAttributes = new { @class = "form-control rounded-pill shadow-lg", @placeholder = "message" } })
+            </div>
+        </div>
+
+        <div class="form-group col-sm-3">
+            <button class="btn btn-success rounded-pill" type="submit"><i class="fa-solid fa-paper-plane"></i> Send</button>
+        </div>
+    </div>
+    }
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/Admin/messages.js" defer></script>

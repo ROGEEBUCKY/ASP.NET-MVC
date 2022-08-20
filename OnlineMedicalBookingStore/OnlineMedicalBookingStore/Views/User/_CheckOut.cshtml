@@ -1,0 +1,121 @@
+﻿@using Common.ViewModels
+@model Common.ViewModels.CheckOutVM
+@{
+    UserVM user = Session["User"] as UserVM;
+}
+
+<div class="d-flex align-items-start justify-content-center">
+    <div class="row col-md-5 flex-column align-items-center justify-content-center my-5 mx-3">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h2 class="card-title text-center">Pay Using Upi</h2>
+                <hr />
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                <img src="~/Images/paytm-icon.png" class="me-1" width="60" height="20" />
+                                PAYTM
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="form-group d-flex">
+                                    <form id="paytmform">
+                                        <input type="text" id="paytmpay" name="upi" required class="form-control mb-2" placeholder="upi Id" />
+                                        <button class="btn btn-success submit">Pay</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                <img src="~/Images/google-pay-icon.png" class="me-1" width="30" height="20" />
+                                GOOGLEPAY
+                            </button>
+                        </h2>
+                        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="d-flex form-group">
+                                    <form id="googleform d-flex">
+                                        <input type="text" required name="upi" class="form-control mb-2" id="paytmpay" placeholder="upi Id" />
+                                        <button class="btn btn-success submit">Pay</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                <img src="~/Images/phonepe-logo-icon.png" class="me-1" width="30" height="20" />
+                                PHONEPAY
+                            </button>
+                        </h2>
+                        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="d-flex form-group">
+                                    <form id="phoneform">
+                                        <input type="text" id="paytmpay" name="upi" required class="form-control mb-2" placeholder="upi Id"/>
+                                        <button class="btn btn-success submit">Pay</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card shadow-lg m-3">
+            <div class="card-body">
+                <h3 class="card-title text-center">Pay Using Card</h3>
+                <div class="card-text d-flex align-items-center flex-column">
+                    <div class="d-flex">
+                        <img src="~/Images/rupay-logo-icon.png" width="80" height="60" />
+                        <img src="~/Images/master-card-icon.png" width="80" height="60" />
+                    </div>
+                    <div class="form col-md-8">
+                        <form id="cardform">
+                            <div class="form-group mb-2">
+                                <label class="form-label">Name on Card</label>
+
+                                <input type="text" class="form-control" placeholder="Name on Card" />
+                            </div>
+                            <div class="form-group mb-2">
+                                <label class="form-label">Card Number</label>
+
+                                <input type="number" maxlength="16" minlength="16" required   class="form-control" name="cnumber" placeholder="Card Number" />
+                            </div>
+                            <label class="form-label">Expiry</label>
+                            <div class="form-group  mb-3">
+                                <input type="month" name="expiry" min="2022-09" required id="expirydate" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label me-1">CVV</label>
+                                <input  name="cvv" placeholder="cvv" type="number" maxlength="3" minlength="3" required class="form-control" /> 
+                            </div>
+                            <button class="btn btn-success submit"  id="cardformbtn">Pay</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="card my-5 mx-3 shadow-lg">
+            <div class="card-body">
+                <h3 class="card-title">Payment Details</h3>
+                <p>Number Of Items: @Model.NumberOfItems</p>
+                <hr />
+                <p><b>Final Amount : &#8377; @Model.TotalAmount</b></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/User/checkout.js" defer></script>

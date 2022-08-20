@@ -1,0 +1,32 @@
+﻿@model QR_Code_Generator.Models.QRModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <!-- CSS only -->
+    @*<img src="~/App_Data/businessman.png" />*@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+<body>
+    <div class="d-flex align-items-center justify-content-center">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Message, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Message, new { @class = "form-control" })
+            </div>
+            <button type="submit" class="btn btn-success">Generate QR</button>
+            }
+    </div>
+        <div class="d-flex align-items-center justify-content-center">
+            <img src="@ViewBag.QRCodeImage" width="200" height="200" />
+        </div>
+</body>
+</html>

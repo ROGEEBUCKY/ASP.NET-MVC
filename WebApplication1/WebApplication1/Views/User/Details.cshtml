@@ -1,0 +1,21 @@
+﻿@model IEnumerable<WebApplication1.Models.User>
+@{
+    ViewBag.Title = "Details";
+    int count=0;
+}
+<h1>Users</h1>
+@Html.ActionLink("Add New User", "Index", "User",new {@class= "btn btn-primary" })
+<table>
+    <thead>
+        <tr><th>Sno.</th><th>Name</th><th>Email</th><th>Age</th><th>Gender</th></tr>
+    </thead>
+    <tbody>
+         
+        @foreach (var user in Model)
+            {
+            count++;
+        <tr><td>@count</td><td>@(user.FirstName+" "+@user.LastName)</td><td>@user.Email</td><td>@user.Age</td><td>@user.Gender</td><td>@Html.ActionLink("Delete","Delete","User",new {id = user.Id},new {@class="btn btn-danger" })</td><td>@Html.ActionLink("Edit", "Edit", "User", new { id = user.Id }, new { @class = "btn btn-primary" })</td></tr>
+            }
+    </tbody>
+</table>
+

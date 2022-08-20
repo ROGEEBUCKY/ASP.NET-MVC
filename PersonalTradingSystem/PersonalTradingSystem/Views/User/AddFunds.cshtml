@@ -1,0 +1,36 @@
+﻿@using Common.ViewModels
+@model Common.ViewModels.FundsVM
+
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    UserVM user = Session["User"] as UserVM;
+    Model.UserId = user.Id;
+}
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<div >
+    <div class="d-flex justify-content-center">
+        @using (Html.BeginForm("AddFunds", "User", FormMethod.Post, new { @class = "card p-3" }))
+            {
+            <div class="form-group">
+                @Html.LabelFor(m => m.FundAmount, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.FundAmount, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FundAmount, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FundRemarkId, new { @class = "form-label" })
+                @Html.DropDownListFor(m => m.FundRemarkId, new SelectList(Model.FundRemarkList, "Id", "Type", Model.FundRemarkId), "Selest Fund Type", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FundRemarkId, "", new { @class = "text-danger" })
+            </div>
+            @Html.HiddenFor(m => m.UserId)
+            <div class="form-group d-flex justify-content-evenly mt-3">
+                <button class="btn btn-primary" type="submit">Submit</button>
+                @Html.ActionLink("Cancel", "Index", "User", new { @class = "btn btn-outline-primary" })
+            </div>
+            }
+    </div>
+</div>
+
+

@@ -1,0 +1,11 @@
+D:\ASP.NET MVC\EMployee\BLL\bin\Debug\BLL.dll
+D:\ASP.NET MVC\EMployee\BLL\bin\Debug\BLL.pdb
+D:\ASP.NET MVC\EMployee\BLL\bin\Debug\COMMON.dll
+D:\ASP.NET MVC\EMployee\BLL\bin\Debug\DAL.dll
+D:\ASP.NET MVC\EMployee\BLL\bin\Debug\COMMON.pdb
+D:\ASP.NET MVC\EMployee\BLL\bin\Debug\DAL.pdb
+D:\ASP.NET MVC\EMployee\BLL\obj\Debug\BLL.csproj.AssemblyReference.cache
+D:\ASP.NET MVC\EMployee\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+D:\ASP.NET MVC\EMployee\BLL\obj\Debug\BLL.csproj.CopyComplete
+D:\ASP.NET MVC\EMployee\BLL\obj\Debug\BLL.dll
+D:\ASP.NET MVC\EMployee\BLL\obj\Debug\BLL.pdb

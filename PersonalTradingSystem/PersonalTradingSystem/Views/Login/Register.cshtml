@@ -1,0 +1,70 @@
+﻿@model Common.ViewModels.UserVM
+@{
+    ViewBag.Title = "Register";
+}
+<div class="d-flex container-fluid justify-content-center align-items-center">
+    <div class="card w-50 p-3">
+        <h2 class="text-center">Register Form</h2>
+        @using (Html.BeginForm("Register", "Login", FormMethod.Post, new { @id = "regForm" }))
+            {
+            @Html.ValidationSummary(true,"",new {@class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.BirthDate)
+                @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.BirthDate, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary my-2" type="submit" id="regbtn">Submit</button>
+                @Html.ActionLink("Already registered? login", "Index", null, new { @class = "btn btn-outline-primary" })
+            </div>
+            }
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () { 
+            var message = "@ViewBag.message";
+            if(message != ''){
+                swal({
+                    title: "Registered Successfully!!",
+                    text: message,
+                    type: "success",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then(function () {
+                    window.location = "/";
+                });
+        }
+        $("#regbtn").click(function () {
+            if ($("#regForm").valid() == false) {
+                $.toast({
+                    heading: 'Error',
+                    text: 'Invaid Inputs',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    position: 'top-center',
+                })
+            }
+        });
+    });
+</script>

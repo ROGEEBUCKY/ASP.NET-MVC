@@ -1,0 +1,40 @@
+﻿@using Common.ViewModels
+@{
+    Layout = null;
+    UserVM user = Session["User"] as UserVM;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UnAuthorize</title>
+    <link href="~/Content/Login/Error.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="error-page">
+        <div class="content">
+            <h2 class="header" data-text="404">
+                404
+            </h2>
+            <h4 data-text="Opps! Page not found">
+                Opps! Page not found
+            </h4>
+            <p>
+                Sorry, the page you're looking for doesn't exist. If you think something is broken, report a problem.
+            </p>
+            <div class="btns">
+                @if (user.RoleId == 1)
+                    {
+                    @Html.ActionLink("Go to Home", "Index", "Admin", null, new { @class = "btn btn-primary", @id = "cart" })
+                    }
+                else
+                    {
+                    @Html.ActionLink("Go to Home", "Index", "User", null, new { @class = "btn btn-primary", @id = "cart" })
+                    }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

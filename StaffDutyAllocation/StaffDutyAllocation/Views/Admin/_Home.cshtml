@@ -1,0 +1,77 @@
+﻿@model Common.ViewModels.AdminVM
+
+<div id="homesection">
+
+    <div id="empinfo" class="row  m-3">
+        <div id="empcount" class="card col-md-3 me-3">
+            <h5 class="card-header">Total Employees</h5>
+            <div class="card-body d-flex flex-column align-items-center justify-content-evenly">
+                <img src="~/images/team.png" class="img-fluid card-title" />
+                <h1 class="text-info">@Model.Employees.Count</h1>
+            </div>
+            <button id="addEmployeebtn" type="button" class="btn btn-primary">
+                Add New Employee
+            </button>
+        </div>
+        <div id="usercount" class="card col-md-3">
+            <h5 class="card-header">Total Users</h5>
+            <div class="card-body d-flex flex-column align-items-center justify-content-evenly">
+                <img src="~/images/businessman.png" class="img-fluid card-title" />
+                <h1 class="text-warning">@Model.Users.Count</h1>
+            </div>
+        </div>
+    </div>
+
+    <div id="dutyinfo" class="row m-3">
+        <div id="tdutycount" class="card col-md-3 me-3">
+            <h5 class="card-header">Total Duties</h5>
+            <div class="card-body d-flex flex-column align-items-center justify-content-evenly">
+                <img src="~/images/to-do-list.png" class="img-fluid card-title" />
+                <h1 class="text-success">@Model.Duties.Count</h1>
+            </div>
+            <button id="adddutybtn" type="button" class="btn btn-primary">
+                Add New Duty
+            </button>
+        </div>
+
+        <div id="adutycount" class="card me-3 col-md-3">
+            <h5 class="card-header">Assigned Duties</h5>
+            <div class="card-body d-flex flex-column align-items-center justify-content-evenly">
+                <img src="~/images/project.png" class="img-fluid card-title" />
+                <h1 class="text-danger">@Model.AssignedDuties.Count</h1>
+            </div>
+        </div>
+        <div id="udutycount" class="card col-md-3">
+            <h5 class="card-header">Unassigned Duties</h5>
+            <div class="card-body d-flex flex-column align-items-center justify-content-evenly">
+                <img src="~/images/planning.png" class="img-fluid card-title" />
+                <h1 class="text-primary">@Model.UnAssignedDuties.Count</h1>
+            </div>
+        </div>
+    </div>
+
+    <div id="rosterinfo" class="row m-3">
+        <div id="rostercount" class="card col-md-3 me-3">
+            <h5 class="card-header">Total Roster</h5>
+            <div class="card-body d-flex flex-column align-items-center justify-content-evenly">
+                <img src="~/images/schedule.png" class="img-fluid card-title" />
+                <h1 class="text-warning">@Model.Rosters.Count</h1>
+            </div>
+            <button id="addrosterbtn" type="button" class="btn btn-primary">
+                Add New Roster
+            </button>
+        </div>
+        <div id="emptyroster" class="card col-md-3">
+            <h5 class="card-header">Empty Rosters</h5>
+            <div class="card-body d-flex flex-column align-items-center justify-content-evenly">
+                <img src="~/images/calendar.png" class="img-fluid card-title" />
+                <h1 class="text-info">@Model.EmptyRosters.Count</h1>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Scripts/Admin/AdminHome.js" defer></script>
+
+

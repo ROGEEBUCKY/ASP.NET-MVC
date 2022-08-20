@@ -1,0 +1,35 @@
+﻿@using Common.ViewModels
+@{
+    List<EmployeeMessagesVM> uList = ViewBag.msgUserList;
+    ViewBag.Message = ViewBag.firstusermessages;
+}
+<div class="card">
+    <div class="card-header">
+        <h2>Employee Messages</h2>
+    </div>
+    <div class="card-body row">
+        <div class="col-3 overflow-auto" id="EmployeeList">
+            <ul class="list-group">
+                @{
+                    foreach (var user in uList)
+                        {
+
+                            @Ajax.ActionLink(@user.UserName, "GetEmployeeMessages", "Admin", new { id = @user.UserId,name=user.UserName },
+                              new AjaxOptions
+                                  {
+                                  HttpMethod = "Get",
+                                  InsertionMode = InsertionMode.Replace,
+                                  UpdateTargetId = "messagearea",
+                                  OnSuccess = "",
+                                  OnFailure = ""
+                                  }, new { @class = "list-group-item rounded bg-primary text-white mb-2" })
+                        }
+                }
+            </ul>
+        </div>
+
+        <div class="col-8 border" id="messagearea">
+            @{Html.RenderPartial("_EmployeeMessages");}
+        </div>
+    </div>
+</div>

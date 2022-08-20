@@ -1,0 +1,65 @@
+﻿@using Common.ViewModels;
+@using System.Linq;
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    UserVM user = Session["User"] as UserVM;
+}
+
+
+<div style="display:flex; align-items:center; justify-content:center; padding:20px">
+    <table id="tblInvestment">
+        <thead>
+            <tr>
+                <th>Sno</th>
+                <th>Investment ID</th>
+                <th>Investment Amount</th>
+                <th>Final Amount</th>
+                <th>Fund Id</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+
+        var table = $('#tblInvestment').DataTable({
+            scrollX: true,
+            scrollCollapse: false,
+            paging: true,
+            ajax: {
+                "url": "/User/GetUserWithdrawnInvestments",
+                "type": "POST",
+                "dataType": "Json",
+            },
+            columns: [
+                {},
+                { "data": "InvestmentId", "width": "10vw" },
+                { "data": "InvestmentAmount", "width": "10vw" },
+                { "data": "FinalAmount", "width": "10vw" },
+                { "data": "FundId", "width": "10vw" },
+            ],
+            columnDefs: [
+                {
+                    render: function (data, type, row) {
+                        return data + 0;
+                    },
+                    targets: 0
+                }
+            ],
+            order: [[1, 'asc']],
+        });
+        table.on('order.dt search.dt', function () {
+            let i = 1;
+
+            table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+
+    });
+</script>
+

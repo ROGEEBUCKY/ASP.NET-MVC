@@ -1,0 +1,6 @@
+D:\ASP.NET MVC\EMployee\DAL\bin\Debug\DAL.dll
+D:\ASP.NET MVC\EMployee\DAL\bin\Debug\DAL.pdb
+D:\ASP.NET MVC\EMployee\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+D:\ASP.NET MVC\EMployee\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+D:\ASP.NET MVC\EMployee\DAL\obj\Debug\DAL.dll
+D:\ASP.NET MVC\EMployee\DAL\obj\Debug\DAL.pdb

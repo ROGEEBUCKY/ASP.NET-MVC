@@ -1,0 +1,52 @@
+﻿@model Common.ViewModels.OrderVM
+<div id="bill">
+    <h3>Bill</h3>
+    <p>Order Id: #@Model.Id</p>
+    <p>Thank you for your order </p>
+    <p>Please keep this invoice for your record</p>
+    <table class="table">
+        <tr>
+            <td>delivery To:</td>
+            <td>@Model.Address, @Model.City, @Model.State, @Model.ZipCode</td>
+        </tr>
+        <tr>
+            <td>Order Date:</td>
+            <td>@Model.Created</td>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <th>Item</th>
+            <th>quantity</th>
+            <th>price</th>
+            <th>Total</th>
+        </tr>
+        @foreach (var item in Model.OrderDetailsList)
+            {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price</td>
+                <td>@(item.Price*item.Quantity)</td>
+            </tr>
+            }
+    </table>
+
+    <p class="">Final Amount : @Model.Amount</p>
+    <button id="printbtn" class="btn btn-primary">print</button>
+</div>
+<script>
+    $("#printbtn").on("click", function () {
+        var divToPrint = $("#bill");
+
+        var newWin = window.open('', 'Print-Window');
+
+        newWin.document.open();
+
+        newWin.document.write('<html><body onload="window.print()">' + divToPrint.html() + '</body></html>');
+
+        newWin.document.close();
+
+        setTimeout(function () { newWin.close(); }, 10);
+    });
+</script>

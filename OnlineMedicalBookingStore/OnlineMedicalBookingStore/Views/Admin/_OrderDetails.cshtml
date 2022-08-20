@@ -1,0 +1,22 @@
+﻿@model Common.ViewModels.OrderVM
+
+<div>
+    <h3 class="text-center">Order Details</h3>
+    <hr />
+    <div>
+        <p>
+           Delivery Address: @Model.Address, @Model.City, @Model.State, @Model.ZipCode
+        </p>
+        <p>Order Date: @Model.Created</p>
+        <p>Number Of Items : @Model.OrderDetailsList.Count()</p>
+        <table class="table">
+            <tr><th>Item</th><th>Quantity</th><th>price</th></tr>
+            @foreach(var item in Model.OrderDetailsList)
+                {
+                <tr>
+                    <td>@item.Product.Name</td><td>@item.Quantity</td><td>@item.Price</td>
+                </tr>
+                }
+        </table>
+    </div>
+</div>

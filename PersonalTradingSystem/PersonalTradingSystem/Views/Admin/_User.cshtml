@@ -1,0 +1,239 @@
+﻿@model Common.ViewModels.UserVM
+
+<div id="userDetailsDiv">
+    <div class="row align-item-center justify-content-start">
+        <div class="col-md-6">
+            <div class="card">
+                <h5 class="card-header">User</h5>
+                <div class="card-body">
+                    <h5 class="card-title text-center">@Html.DisplayFor(model => model.Name)'s Details</h5>
+                    <div class="card-text d-flex row">
+                        <div class="col-sm-3" style="overflow:hidden; display:flex; align-items:center; justify-content:center">
+                            <img src="../../images/user.jpg" style="width:115%; height:117.5%" />
+                        </div>
+                        <div class="col-sm-9">
+                            <p>
+                                <b>
+                                    @Html.DisplayNameFor(model => model.Name) :
+                                </b>
+                                @Html.DisplayFor(model => model.Name)
+                            </p>
+                            <p>
+                                <b>
+                                    @Html.DisplayNameFor(model => model.Email):
+                                </b>
+                                @Html.DisplayFor(model => model.Email)
+                            </p>
+                            <p>
+                                <b>
+                                    @Html.DisplayNameFor(model => model.BirthDate) :
+                                </b>
+                                @Html.DisplayFor(model => model.BirthDate)
+                            </p>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Edit
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("Register", "Login", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "Success", OnFailure = "OnSuccess" }, new { @id = "regForm" }))
+                    {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+                    </div>
+
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BirthDate)
+                        @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.BirthDate, null, new { @class = "text-danger" })
+                    </div>
+
+                    @Html.HiddenFor(m => m.Password)
+                    @Html.HiddenFor(m => m.Id)
+                    <div class="form-group">
+                        <button class="btn btn-primary my-2" type="submit" id="regbtn">Edit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                    </div>
+                    }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card mt-5">
+    <h5 class="card-header text-center">User History</h5>
+    <div class="card-body row  align-items-start justify-content-evenly">
+        <div class="card col-md-5 ">
+            <h5 class="card-header">Recent Funds</h5>
+            <div class="card-body">
+                <ol id="fundslist" class="list-group list-group-numbered">
+                    no funds
+                </ol>
+                <button id="showfund" class="btn btn-sm btn-primary align-self-center">Show All Funds</button>
+                <button id="hidefund" class="btn btn-sm btn-primary align-self-center">Show less </button>
+            </div>
+        </div>
+        <div class="card col-md-5">
+            <h5 class="card-header">Recent Investments</h5>
+            <div class="card-body">
+                <ol id="Investlist" class="list-group list-group-numbered">
+                    no investments
+                </ol>
+                <button id="showinvest" class="btn btn-sm btn-primary align-self-center">Show All Investments</button>
+                <button id="hideinvest" class="btn btn-sm btn-primary align-self-center">Show less</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $("#hideinvest").hide();
+    $("#hidefund").hide();
+
+
+    function OnSuccess(data) {
+        var id = data.Id;
+        $("#staticBackdrop").modal('hide');
+        $('.modal-backdrop').remove();
+        $("#UserInfo").show();
+        $.ajax({
+            type: "POST", //Method type
+            url: "/Admin/GetaUser", //url to load partial view
+            data: { id: id }, //send student id
+            success: function (response) {
+                $("#UserInfo").show();
+                $("#FundsSection").hide();
+                $("#InvestmentSection").hide();
+                $("#UserSection").hide();
+                $("#useri").html(response);
+
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+     function GetFunds( num=3) {
+            var id = @Html.DisplayFor(model => model.Id);
+            $.ajax({
+                url: "api/Fund", //url to load partial view
+                data: { id: id, num:num }, //send student id
+                success: function (response) {
+                    $("#fundslist").html("");
+                    $.each(response, function (key, val) {
+                        var l = "<li class='list-group-item'>Fund created on " +
+                            moment(val.Dated).format("YYYY-MM-DD") + " : " +
+                            (val.FundAmount).toLocaleString('en-HI', {
+                            style: 'currency',
+                            currency: 'INR',
+                        }); + "</li>";
+                        $("#fundslist").html($("#fundslist").html()+l);
+                    });
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+
+     function GetInvestments( num=3) {
+            var id = @Html.DisplayFor(model => model.Id);
+            $.ajax({
+                url: "api/Investment", //url to load partial view
+                data: { id: id, num:num }, //send student id
+                success: function (response) {
+                    $("#Investlist").html("");
+                    $.each(response, function (key, val) {
+                        var l = "<li class='list-group-item'>Investment created on " +
+                            moment(val.Dated).format("YYYY-MM-DD") + " from Fund-"+val.FundId+" :  " +
+                            (val.InvestmentAmount).toLocaleString('en-HI', {
+                            style: 'currency',
+                            currency: 'INR',
+                        }); + "</li>";
+                        $("#Investlist").html($("#Investlist").html()+l);
+                    });
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+    GetFunds();
+    GetInvestments();
+
+
+
+    $(document).ready(function () {
+
+     
+
+        $("#showinvest").on("click", function () {
+            GetInvestments(100);
+            $(this).hide();
+            $("#hideinvest").show();
+        });
+        $("#showfund").on("click", function () {
+            GetFunds(100);
+            $(this).hide();
+            $("#hidefund").show();
+        });
+
+
+        $("#hideinvest").on("click", function () {
+            GetInvestments(3);
+            $(this).hide();
+            $("#showinvest").show();
+        });
+        $("#hidefund").on("click", function () {
+            GetFunds(3);
+            $(this).hide();
+            $("#showfund").show();
+        });
+    });
+</script>
+

@@ -1,0 +1,27 @@
+﻿@model List<Common.ViewModels.RosterVM>
+
+
+<div class="">
+    <div class="card-header text-center">
+        <h1 class="text-dark">Roster List</h1>
+        <p class="text-secondary">@DateTime.Now.ToLongDateString()</p>
+    </div>
+    <div class="card-body row" id="fordiv">
+        @{
+            foreach (var roster in Model)
+                {
+                <div class="roster_card">
+                    <h3 >@roster.Name's Roster</h3> 
+                    <div >
+                        <p><b>Created Date:</b> @roster.CreatedDate.ToLongDateString()</p>
+                        <p><b>No of Duties:</b> @roster.NumberOfDuties</p>
+                    </div>
+
+                    @Ajax.ActionLink("Assign Employees", "OpenRosterModal", "User", new { id = roster.Id },new AjaxOptions { HttpMethod="POST",UpdateTargetId= "rdutytable", OnSuccess="OnSuccess",OnFailure="OnSuccess" }, new {@class= "btn btn-warning"})
+                </div>
+                }
+        }
+    </div>
+</div>
+
+

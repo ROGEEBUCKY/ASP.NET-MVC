@@ -1,0 +1,108 @@
+﻿@using Common.ViewModels
+@model List<Common.ViewModels.CartVM>
+@{
+    UserVM user = Session["User"] as UserVM;
+}
+
+<div class="d-flex align-items-start justify-content-center" id="cartdiv">
+    <div class="row col-md-6 flex-column align-items-center justify-content-center my-5 mx-3">
+        <div class="card shadow-lg">
+            <div class="card-body" id="cartarea">
+                <h2 class="card-title">Cart- @Model.Count() items</h2>
+
+                @foreach (var item in Model)
+                    {
+                    <div class="m-3">
+                        <div class="card-text d-flex">
+                            <div>
+                                <img src="@item.Product.Image" width="150" height="150" class="d-block me-3" />
+                            </div>
+                            <div class="me-5">
+                                <p><b>@item.Product.Name</b></p>
+                                <p> Manufacturer: @item.Product.Manufacturer</p>
+                                <p> Size: @item.Product.Weight mg</p>
+                                @Ajax.ActionLink("Remove", "RemoveItemFromCart", "User", new { @id = item.Id },
+                                                    new AjaxOptions
+                                                        {
+                                                        HttpMethod = "GET",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        UpdateTargetId = "renderarea"
+                                                        }, new { @class = "btn btn-danger" })
+                            </div>
+                            <div class="text-center">
+                                QTY
+                                <select id="@item.Id" class='form-select mb-3 qty'>
+                                    @for (var num = 1; num <=  item.Product.Stock; num++)
+                                        {
+                                        if (num == item.Quantity)
+                                            {
+                                            <option value='@num' selected>@num</option>
+                                            }
+                                        else
+                                            {
+                                            <option value='@num'>@num</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                                <p class="text-success h4">
+                                    Price: &#8377; @item.Price
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+
+                    }
+            </div>
+        </div>
+
+
+        <div class="card shadow-lg m-3">
+            <div class="card-body">
+                <h3 class="card-title">Delivery Address</h3>
+                <p>Address: @user.Address</p>
+                <p>city: @user.City</p>
+                <p>State: @user.State</p>
+                <p>Zip Code: @user.Zip</p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="card my-5 mx-3 shadow-lg">
+            <div class="card-body">
+                <h3 class="card-title">Order Summary</h3>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    @{
+                        float? amount = 0;
+                        foreach (var item in Model)
+                            {
+                            amount += (item.Price * item.Quantity);
+                            <tr>
+                                <td>1</td>
+                                <td>@item.Product.Name :</td>
+                                <td>@item.Quantity * &#8377; @item.Product.FinalAmount:</td>
+                                <td>= &#8377; @(item.Quantity*item.Price) </td>
+                            </tr>
+                            }
+                    }
+                </table>
+            </div>
+            <div class="card-footer d-flex justify-content-center align-items-center">
+                <p class="text-success me-2"><b>Final Amount : &#8377; @amount</b></p>
+                <button class="btn btn-primary" id="checkoutbtn">Proceed to checkOut</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/User/cart.js" defer></script>

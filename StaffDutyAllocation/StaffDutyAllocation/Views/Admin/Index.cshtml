@@ -1,0 +1,181 @@
+﻿@using Common.ViewModels
+@{
+    Layout = null;
+    UserVM user = Session["User"] as UserVM;
+    AdminVM newInfo = Model;
+    UserVM newUser = new UserVM();
+    newUser.DateOfBirth = null;
+    DutyVM newDuty = ViewBag.dutymodel;
+    RosterVM newRoster = new RosterVM();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" />
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #mainpage {
+            background: url("../../images/a.jpg");
+            background-size: cover;
+            padding-bottom: 20px;
+        }
+
+        #renderpage {
+            background: white;
+            margin: 0 auto;
+            min-height: 90vh;
+        }
+
+        #empinfo, #dutyinfo, #rosterinfo {
+            margin: 80px auto;
+            padding: 40px 30px 30px 30px;
+            background-color: #ecf0f3;
+            border-radius: 15px;
+            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+        }
+
+        #EmployeeList {
+            max-height: 70vh;
+        }
+
+        #employeemessagesarea {
+            min-height: 70vh;
+            max-height: 70vh;
+        }
+    </style>
+</head>
+<body>
+
+
+    <nav class="navbar shadow-lg navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand ">Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav  me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        @Ajax.ActionLink("Home", "Home", "Admin", null,
+                            new AjaxOptions
+                                {
+                                HttpMethod = "GET",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "renderpage"
+                                }, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Ajax.ActionLink("Employee", "Employee", "Admin", null,
+                             new AjaxOptions
+                                 {
+                                 HttpMethod = "GET",
+                                 InsertionMode = InsertionMode.Replace,
+                                 UpdateTargetId = "renderpage",
+                                 }, new { @class = "nav-link" })
+
+                    </li>
+                    <li class="nav-item">
+                        @Ajax.ActionLink("Duties", "Duties", "Admin", null,
+                             new AjaxOptions
+                                 {
+                                 HttpMethod = "GET",
+                                 InsertionMode = InsertionMode.Replace,
+                                 UpdateTargetId = "renderpage"
+                                 }, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Ajax.ActionLink("Roster", "Roster", "Admin", null,
+                             new AjaxOptions
+                                 {
+                                 HttpMethod = "GET",
+                                 InsertionMode = InsertionMode.Replace,
+                                 UpdateTargetId = "renderpage"
+                                 }, new { @class = "nav-link" })
+                    </li>
+
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Notifications
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                @Ajax.ActionLink("Requests", "Requests", "Admin", null,
+                                         new AjaxOptions
+                                             {
+                                             HttpMethod = "GET",
+                                             InsertionMode = InsertionMode.Replace,
+                                             UpdateTargetId = "renderpage"
+                                             }, new { @class = "nav-link" })
+                            </li>
+                            <li>
+                                @Ajax.ActionLink("Messages", "Messages", "Admin", null,
+                                        new AjaxOptions
+                                            {
+                                            HttpMethod = "GET",
+                                            InsertionMode = InsertionMode.Replace,
+                                            UpdateTargetId = "renderpage"
+                                            }, new { @class = "nav-link" })
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    @Html.ActionLink("Log Out", "LogOut", "Login", null, new { @class = "btn btn-dark" })
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" id="mainpage">
+        <div class="container p-3" id="renderpage">
+            @Html.Partial("_Home", newInfo);
+        </div>
+    </div>
+
+
+
+
+
+    <div class="modal fade" id="adminmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="adminmodalbody" class=" modal-body p-3">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
+    <script src="~/Scripts/Admin/AdminMain.js"></script>
+</body>
+</html>

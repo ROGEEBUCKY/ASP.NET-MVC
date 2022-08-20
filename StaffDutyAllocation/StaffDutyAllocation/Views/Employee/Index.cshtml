@@ -1,0 +1,152 @@
+﻿@model Common.ViewModels.RosterVM
+@using Common.ViewModels
+@{
+    Layout = null;
+    UserVM user = Session["User"] as UserVM;
+    List<DutyVM> duties = ViewBag.dutylist;
+    ViewBag.duties = duties;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+
+    <style>
+        #messagesarea {
+            min-height: 60vh;
+            max-height: 70vh;
+        }
+
+        #employeepage {
+            padding: 0;
+            background: url("../../images/loginbackground.jpg");
+        }
+
+        #overlay {
+            width: 100%;
+            background-color: rgba(0,0,0,0.5);
+            padding-bottom: 20px;
+        }
+
+        #renderpage {
+            padding: 0;
+            background: white;
+            min-height: 90vh;
+        }
+
+        .msg {
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg shadow-lg  bg-light navbar-light ">
+        <div class="container">
+            <a class="navbar-brand ">Hello @user.FirstName</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav  me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        @Ajax.ActionLink("Home", "Home", "Employee", null,
+                                            new AjaxOptions
+                                                {
+                                                HttpMethod = "GET",
+                                                InsertionMode = InsertionMode.Replace,
+                                                UpdateTargetId = "renderpage"
+                                                }, new { @class = "nav-link" })
+                    </li>
+
+
+
+                </ul>
+                <div class="d-flex">
+                    @Ajax.ActionLink("Contact", "Message", "Employee", null,
+                                    new AjaxOptions
+                                        {
+                                        HttpMethod = "GET",
+                                        InsertionMode = InsertionMode.Replace,
+                                        UpdateTargetId = "renderpage"
+                                        }, new { @class = "btn btn-outline-dark me-3" })
+                    @Html.ActionLink("Log Out", "LogOut", "Login", null, new { @class = "btn btn-dark" })
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" id="employeepage">
+        <div id="overlay">
+            <div class="container" id="renderpage">
+                <div class="card-header text-center">
+                    <h1 class="text-dark">Start Your Day</h1>
+                    <p class="text-secondary">@DateTime.Now.ToLongDateString()</p>
+                </div>
+                <div class="card-body row justify-content-evenly" id="homediv">
+                    <div class="card col-md-5">
+                        @{
+                            if (Model == null)
+                                {
+                                <h3 class="card-header">You are not assigned to any roster today</h3>
+                                <div class="card-body row">
+                                    <h2 class="text-muted">No Duties</h2>
+                                </div>
+                                }
+                            else
+                                {
+                                <h3 class="card-header">Today's Roster : @Model.Name</h3>
+                                <div class="card-body row">
+                                    <p><b>Created Date:</b> @Model.CreatedDate </p>
+                                    <p><b>No of Duties:</b> @Model.NumberOfDuties</p>
+                                    @Ajax.ActionLink("Start Duties", "Home", "Employee", null,
+                                        new AjaxOptions
+                                            {
+                                            HttpMethod = "GET",
+                                            InsertionMode = InsertionMode.Replace,
+                                            UpdateTargetId = "renderpage"
+                                            }, new { @class = "btn btn-success me-3" })
+                                </div>
+                                }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <script>
+        function success() {
+        }
+        
+    </script>
+
+</body>
+</html>
+
+

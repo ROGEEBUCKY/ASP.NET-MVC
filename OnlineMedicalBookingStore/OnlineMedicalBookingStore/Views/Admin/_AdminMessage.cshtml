@@ -1,0 +1,35 @@
+﻿@using Common.ViewModels
+    @{
+        List<UserVM> uList = ViewBag.msgUserList;
+        ViewBag.Message = ViewBag.firstusermessages;
+    }
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">User Queries</h2>
+        </div>
+        <div class="card-body row align-items-stretch">
+            <div class="col-3 overflow-auto shadow-lg" id="userList">
+                <ul class="list-group">
+                    @{
+                        foreach (var user in uList)
+                            {
+
+                            @Ajax.ActionLink(@user.Name, "GetUserMessages", "Admin", new { id = @user.Id, name = user.Name },
+                              new AjaxOptions
+                                  {
+                                  HttpMethod = "Get",
+                                  InsertionMode = InsertionMode.Replace,
+                                  UpdateTargetId = "messagearea",
+                                  OnSuccess = "",
+                                  OnFailure = ""
+                                  }, new { @class = "list-group-item rounded bg-primary text-white mb-2" })
+                            }
+                    }
+                </ul>
+            </div>
+
+            <div class="col-8 border" id="messagearea">
+                @{Html.RenderPartial("_UserMessages");}
+            </div>
+        </div>
+    </div>

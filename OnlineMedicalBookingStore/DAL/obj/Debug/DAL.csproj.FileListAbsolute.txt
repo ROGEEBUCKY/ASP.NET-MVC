@@ -1,0 +1,17 @@
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\bin\Debug\DAL.dll
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\bin\Debug\DAL.pdb
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.dll
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.pdb
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\bin\Debug\DAL.dll.config
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\bin\Debug\EntityFramework.dll
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\bin\Debug\EntityFramework.SqlServer.dll
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\bin\Debug\EntityFramework.xml
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\bin\Debug\EntityFramework.SqlServer.xml
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.csproj.CopyComplete
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.Migrations.InitialModelAddingUserAndRoleTable.resources
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.Migrations.AddedMessagesTable.resources
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.Migrations.AddingProductOrderCartAndOrderDetails.resources
+D:\ASP.NET MVC\OnlineMedicalBookingStore\DAL\obj\Debug\DAL.Migrations.AddedCreationdateInProduct.resources

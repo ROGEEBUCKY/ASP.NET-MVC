@@ -1,0 +1,124 @@
+﻿@using Common.ViewModels;
+@using System.Linq;
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    UserVM user = Session["User"] as UserVM;
+}
+
+
+<div style="display:flex; align-items:center; justify-content:center; padding:20px">
+    <table id="tblInvestment">
+        <thead>
+            <tr>
+                <th>Sno</th>
+                <th>Investment ID</th>
+                <th>Dated</th>
+                <th>Investment Amount</th>
+                <th>Maturity Date</th>
+                <th>Final Amount</th>
+                <th>Fund Id</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+
+        var table = $('#tblInvestment').DataTable({
+            scrollX: true,
+            scrollCollapse: false,
+            paging: true,
+            ajax: {
+                "url": "/User/GetInvestments",
+                "type": "POST",
+                "dataType": "Json",
+            },
+            columns: [
+                {},
+                { "data": "InvestmentId", "width": "10vw" },
+                { "data": "Dated", "width": "10vw" },
+                { "data": "InvestmentAmount", "width": "10vw" },
+                { "data": "DateOfMaturity", "width": "10vw" },
+                { "data": "FinalAmount", "width": "10vw" },
+                { "data": "FundId", "width": "10vw" },
+                { "data": "InvestmentId", "width": "10vw" }
+            ],
+            columnDefs: [
+                {
+                    render: function (data, type, row) {
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    },
+                    targets: 2
+                },
+                {
+                    render: function (data, type, row) {
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    },
+                    targets: 4
+                },
+                {
+                    render: function (data, type, row) {
+                        return data+0;
+                    },
+                    targets: 0
+                },
+                {
+                    render: function (data, type, row) {
+                        return "<button id="+data+" class='btn btn-danger withdrawbtn'>Withdraw</button>";
+                    },
+                    targets: 7
+                }
+            ],
+            order: [[1, 'asc']],
+        });
+        table.on('order.dt search.dt', function () {
+            let i = 1;
+
+            table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+        $("#tblInvestment").on("click", ".withdrawbtn", function () {
+            var button = this;
+            swal(
+                {
+                    title: "Are you sure?",
+                    text: "Do You realy want to Withdraw this Investment( Investment ID: " + button.id + ")",
+                    icon: "warning",
+                    buttons: ["No, cancel it!", "Yes, I am sure!"],
+                }).then(function (result) {
+                    if (result) {
+                        swal("Withdrawn!!",
+                            {
+                                icon: "success",
+                                buttons: false,
+                                timer: 1000,
+                            });
+                        $.ajax(
+                            {
+                                url: '/User/WithdrawInvestment/',
+                                data: { id: button.id },
+                                type: 'POST',
+                                success: function () {
+                                    table.row(button.closest("tr")).remove().draw();
+                                }
+                            });
+                    }
+                    else {
+                        swal("cancelled!!",
+                            {
+                                icon: "warning",
+                                buttons: false,
+                                timer: 1000,
+                            });
+                    }
+                });
+        });
+    });
+</script>
+

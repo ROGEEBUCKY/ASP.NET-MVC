@@ -1,0 +1,76 @@
+﻿@using Common.ViewModels
+@model Common.ViewModels.RosterVM
+@{
+    UserVM user = Session["User"] as UserVM;
+    List<DutyVM> userDuties = ViewBag.duties;
+}
+<div class="card-header">
+    <h1 class="text-center">Today's Duties</h1>
+    <p class="text-secondary text-center">@DateTime.Now.ToLongDateString()</p>
+</div>
+<div id="dutydiv" class="card-body row justify-content-evenly">
+    <div class="card">
+        <div class="card-body row justify-content-evenly" id="fordiv">
+            @foreach (var duty in userDuties)
+                {
+                <div class="card col-md-3">
+                    <div class="card-header">
+                        <h4>@duty.Name</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><b>Duty Type:</b> @duty.DutyTypeName</p>
+                        <p><b>Duty Category:</b> @duty.CategoryName</p>
+                    </div>
+                    <div class="card-footer">
+                        <button id="@duty.Id" class="btn btn-success completed">Mark Completed</button>
+                    </div>
+                </div>
+                }
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#fordiv").on("click", ".completed", function () {
+            var btn = this;
+             $.ajax({
+                 type: "POST", //Method type
+                 url: "/Employee/CheckRequest", //url to load partial view
+                 contents: "",
+                 data: { dutyId: btn.id ,userId: @user.Id}, //send student id
+                 success: function (response) {
+                     debugger;
+                     if (response == "false") {
+                         alert("Your sent Response is still pending");
+                     }
+                     else {
+                          $.ajax({
+                                    type: "POST", //Method type
+                                    url: "/Employee/SendRequest", //url to load partial view
+                                    contents: "",
+                                    data: { dutyId: btn.id ,userId: @user.Id}, //send student id
+                                    success: function (response) {
+                                        $("#renderpage").html(response);
+                                    },
+                                    failure: function (response) {
+                                        alert(response.responseText)
+                                    },
+                                    error: function (response) {
+                                        alert(response.responseText);
+                                    }
+
+                                });
+                     }
+                 },
+                 failure: function (response) {
+                     alert(response.responseText)
+                 },
+                 error: function (response) {
+                     alert(response.responseText);
+                 }
+             });
+        });
+    });
+</script>
+
+

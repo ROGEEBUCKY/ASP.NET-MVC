@@ -1,0 +1,32 @@
+﻿@model MovieBooking.Models.Customer
+@{
+    ViewBag.Title = "Register";
+
+}
+
+
+    <div class="container">
+        @using (Html.BeginForm("FormCollecting", "Customer", Model ,FormMethod.Post))
+            {
+            @Html.AntiForgeryToken();
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)<br />
+                @Html.TextBoxFor(m => m.Name, new { @name = "Customer_Name" })<br />
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)<br />
+                @Html.TextBoxFor(m => m.Email)<br />
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password)<br />
+                @Html.PasswordFor(m => m.Password)
+            </div><div class="form-group">
+                <input type="submit" value="submit" class="btn btn-primary" />
+            </div>
+            }
+    </div>
+
+
+

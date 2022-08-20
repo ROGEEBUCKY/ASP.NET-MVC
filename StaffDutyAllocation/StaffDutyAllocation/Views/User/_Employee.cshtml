@@ -1,0 +1,61 @@
+﻿
+<div class="p-3">
+    <h2 class="text-center">Employee</h2>
+    <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Create payRoll
+    </button>
+    <div>
+        <table id="employeetable">
+            <thead>
+                <tr>
+                    <td>Sno</td>
+                    <td>FullName</td>
+                    <td>Email</td>
+                    <td>Mobile Number</td>
+                    <td>Gender</td>
+                    <td>DOB</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">PayRoll (July Month)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table id="payrolltable">
+                    <thead>
+                        <tr>
+                            <td>Sno</td>
+                            <td>Id</td>
+                            <td>FullName</td>
+                            <td>Email</td>
+                            <td>Basic Salary</td>
+                            <td>Total</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/User/Employee(User).js"></script>

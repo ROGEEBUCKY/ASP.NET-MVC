@@ -1,0 +1,72 @@
+﻿@model Common.ViewModels.UserVM
+@Scripts.Render("~/bundles/jqueryval")
+
+<div class="row container-fluid justify-content-center align-items-center">
+    <div class="card shadow-lg col-md-8 ">
+        <h2 class="text-center">Edit</h2>
+        @using (Ajax.BeginForm("EditUser", "User", null, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "renderarea", InsertionMode = InsertionMode.Replace, OnSuccess = "OnSuccess", OnFailure = "OnFailure" }))
+            {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label " })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                @Html.HiddenFor(m => m.Password)
+                @Html.HiddenFor(m => m.Email)
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.CreatedDate)
+                <div class="d-flex align-items-center justify-content-center my-4">
+                    <input type="submit" value="Update" class="btn btn-dark mx-3" />
+                    <button type="button" data-bs-dismiss='modal' class="btn btn-secondary">Cancel</button>
+
+                </div>
+            }
+    </div>
+</div>
+

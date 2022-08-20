@@ -1,0 +1,35 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+#mainpage {
+    background-size: cover;
+    padding-bottom: 20px;
+}
+
+#renderpage {
+    background: white;
+    margin: 0 auto;
+}
+
+#empinfo, #dutyinfo, #rosterinfo {
+    margin: 80px auto;
+    padding: 40px 30px 30px 30px;
+    background-color: #ecf0f3;
+    border-radius: 15px;
+    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+}
+
+#userList {
+    max-height: 100%;
+}
+
+#usermessagesarea {
+    height: 80%;
+    background: url("/Images/whatsappbg.jpg");
+}
+
+#messagearea {
+    height: 70vh;
+}

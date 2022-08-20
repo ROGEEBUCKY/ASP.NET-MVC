@@ -1,0 +1,31 @@
+﻿@using Common.ViewModels;
+
+@{
+    List<DutyVM> rlist = ViewBag.dList;
+    RosterVM nroster = new RosterVM();
+    nroster.ListOfDuties = rlist;
+}
+
+<h2 class="text-center">Rosters</h2>
+
+<button type="button" class="btn btn-primary my-3" id="addrosterbtn">
+    Add New Roster
+</button>
+<div>
+    <table id="rostertable">
+        <thead>
+            <tr>
+                <td>Sno</td>
+                <td>Roster Name</td>
+                <td>Created Date</td>
+                <td>Number Of Duties</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+
+<script src="~/Scripts/Admin/Roster.js" defer></script>

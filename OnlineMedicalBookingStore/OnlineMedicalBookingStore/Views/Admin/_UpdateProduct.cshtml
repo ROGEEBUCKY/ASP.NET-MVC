@@ -1,0 +1,159 @@
+﻿@model Common.ViewModels.ProductVM
+<div class="">
+    @using (Ajax.BeginForm("EditProduct", "Admin", null, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "renderpage", InsertionMode = InsertionMode.Replace, OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @id = "regForm", enctype = "multipart/form-data" }))
+        {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-horizontal px-3">
+            <h2 class="text-center mb-3">Edit Product</h2>
+            <div class="row mb-2 justify-content-evenly">
+                <div class="form-group col-sm-5">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-sm-5">
+                    @Html.LabelFor(model => model.Manufacturer, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+
+                        @Html.EditorFor(model => model.Manufacturer, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Manufacturer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mb-2 justify-content-evenly">
+                <div class="form-group col-sm-5">
+                    @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-sm-5">
+                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mb-2 justify-content-evenly">
+                <div class="form-group col-sm-5">
+                    @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-sm-5">
+                    @Html.LabelFor(model => model.FinalAmount, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        @Html.EditorFor(model => model.FinalAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                        @Html.ValidationMessageFor(model => model.FinalAmount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-2 justify-content-evenly">
+                <div class="form-group col-sm-5">
+                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control date", @type = "text" } })
+                        @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger " })
+                    </div>
+                </div>
+                <div class="form-group col-sm-5">
+                    @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2 px-5">
+                <div class="form-group col-sm-5">
+                    @Html.LabelFor(model => model.RemarkName, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        @Html.DropDownListFor(model => model.RemarkName, new SelectList(Model.RemarkList, "Name", "Name"), "Select Remark", new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.RemarkName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2 justify-content-center">
+                <div class="form-group col-sm-11">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.Image)
+
+            <div class="  form-group my-3 row align-items-center justify-content-evenly">
+                <button type="submit" class="btn btn-success col-sm-3">Update</button>
+                <button type="button" class="btn btn-secondary col-sm-3" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+        }
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+@*<script src="~/Scripts/Admin/updateproduct.js"></script>*@
+<script defer>
+    $(document).ready(function () {
+        $("#ExpiryDate").datepicker({
+            minDate: +30
+        });
+
+        $("#RemarkName").select2({
+            dropdownParent: $('#adminmodal .modal-content'),
+            width: '200px',
+            tags: true
+        });
+        $("#RemarkName").on("change", function () {
+            var val = $(this).val();
+            debugger;
+            $.ajax({
+                url: "Admin/AddRemark",
+                method: "POST",
+                data: { val: val }
+            });
+        });
+
+
+        $("#Price").on("keyup", function () {
+            var price = $(this).val();
+            var discount = $("#Discount").val();
+            if (discount <= 0) {
+                $("#FinalAmount").val(price);
+            }
+            else {
+                var fdiscount = Number(price) * (Number(discount) / 100);
+                var fprice = Number(price) - fdiscount;
+                $("#FinalAmount").val(fprice);
+            }
+        });
+        $("#Discount").on("keyup", function () {
+            debugger;
+            var price = $("#Price").val();
+            var discount = $(this).val();
+            if (price <= 0) {
+            }
+            else {
+                var fdiscount = Number(price) * (Number(discount) / 100);
+                var fprice = Number(price) - fdiscount;
+                $("#FinalAmount").val(fprice);
+            }
+        });
+    });
+</script>
+

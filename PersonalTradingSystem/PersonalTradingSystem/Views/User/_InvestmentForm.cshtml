@@ -1,0 +1,118 @@
+﻿@using Common.ViewModels
+@model Common.ViewModels.InvestmentVM
+
+@{
+    ViewBag.Title = "Register";
+    UserVM user = Session["User"] as UserVM;
+}
+<div class="d-flex container-fluid justify-content-center align-items-center">
+    <div class="card w-50 p-3">
+        <h2 class="text-center">ADD INVESTMENT</h2>
+
+        @using (Html.BeginForm("AddInvestment", "User", FormMethod.Post, new { @id = "Investform" }))
+            {
+
+            <div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Dated)
+                @Html.TextBoxFor(m => m.Dated, new { @class = "form-control-plaintext Date", @readonly = "readonly" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FundId)
+                @Html.TextBoxFor(m => m.FundId, new { @class = "form-control fundid", @readonly = "readonly" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Fund Amount")
+                @Html.TextBox("FundAmount", null, new { @class = "form-control fundamount", @readonly = "readonly" })
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ForPeriod)
+                @Html.TextBoxFor(m => m.ForPeriod, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ForPeriod, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.DateOfMaturity)
+                @Html.TextBoxFor(m => m.DateOfMaturity, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(m => m.DateOfMaturity, null, new { @class = "text-danger" })
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.InvestmentAmount)
+                @Html.TextBoxFor(m => m.InvestmentAmount, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.InvestmentAmount, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.FinalAmount)
+                @Html.TextBoxFor(m => m.FinalAmount, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <input data-val="true" data-val-number="The field UserId must be a number." data-val-required="The UserId field is required." id="UserId" name="UserId" type="hidden" value="@user.Id">
+
+            @Html.HiddenFor(m => m.FundId)
+
+            <div class="form-group">
+                <button class="btn btn-primary my-2" type="submit" id="regbtn">Add Investment</button>
+            </div>
+            }
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+       
+            var message = "@ViewBag.message";
+            if(message != ''){
+                swal({
+                    title: "Added Successfully!!",
+                    text: message,
+                    type: "success",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then(function () {
+                    window.location = "/User/Investments";
+                });
+        }
+        $("#regbtn").click(function (e) {
+            if ($("#Investform").valid() == false) {
+                $.toast({
+                    heading: 'Error',
+                    text: 'Invaid Inputs',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    position: 'top-center',
+                })
+            }
+        });
+
+
+        $("#ForPeriod").on("blur", function () {
+            var date = $("#Dated").val();
+            var h = $("#ForPeriod").val();
+            var maturityDate = moment(date).add(h, "M").format("YYYY-MM-DD HH:mm:ss");
+            $('#DateOfMaturity').val(maturityDate);
+        });
+     
+
+        $("#InvestmentAmount").on("blur", function () {
+
+            var amount = $(".fundamount").val();
+            var value = $("#InvestmentAmount").val();
+            if (Number(value) <= 0 || Number(value) > Number(amount)) {
+                $("#FinalAmount").val(null);
+                $("#InvestmentAmount").siblings("span").html("amount should be more than 0 and less than fund amount");
+            }
+            else {
+                var last = Number(value) + (Number(value) * (15 / 100));
+                $("#FinalAmount").val(last);
+            }
+        });
+    });
+</script>

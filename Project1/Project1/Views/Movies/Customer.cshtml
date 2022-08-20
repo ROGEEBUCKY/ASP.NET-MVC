@@ -1,0 +1,33 @@
+﻿@*@model List<Project1.Models.Customer>
+@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer</h2>
+
+<h3>Customers List</h3>
+<table class="table table-bordered">
+    <tr><td>Customer Id</td><td>Customer Name</td></tr>
+    @foreach (var customer in @Model)
+        {
+        <tr><td>@customer.Id</td><td>@Html.ActionLink(@customer.Name, "Customers", "Movies", new { id = customer.Id }, null)</td></tr>
+        }
+</table>*@
+
+@model Project1.Models.CustomerList
+@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer</h2>
+
+<h3>Customers List</h3>
+<table class="table table-bordered">
+    <tr><td>Customer Id</td><td>Customer Name</td></tr>
+    @foreach (var customer in Model.Customers)
+        {
+        <tr><td>@customer.Id</td><td>@Html.ActionLink(@customer.Name, "Customers", "Movies", new { id = customer.Id }, null)</td></tr>
+        }
+</table>

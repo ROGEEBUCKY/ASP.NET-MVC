@@ -1,0 +1,32 @@
+﻿@{
+    var list = ViewBag.list;
+}
+<div class="container-fluid mt-4 " style="position:relative">
+    <div class="row overflow-hidden flex-column" id="img_box" style="width:100%; height:80vh; ">
+        @foreach (var anime in list)
+            {
+            <div style="width:350px; height: 50%;">
+                <div class="border border-1 w-100 h-100 me-2" style="background: url(@anime.Picture); background-size:cover; background-repeat:no-repeat; display: flex; justify-content:flex-end; flex-direction:column; background-position: Top;">
+                    <div class="text-uppercase text-center text-white w-100 p-2" style="background:rgb(0,0,0,0.7)">@anime.Title</div>
+                </div>
+            </div>
+            }
+    </div>
+    <button class="btn btn-lg btn-primary " id="btn_showmore" onclick="clickbtn();" style="position:absolute; top: 45%; right:0">LoadMore</button>
+</div>
+
+
+<script>
+    var btn = document.getElementById("btn_showmore");
+    var div = document.getElementById("img_box");
+
+    //$("#btn_showmore").click(function () {
+    //    debugger;
+    //    console.log("test");
+    //});
+
+   function clickbtn() {
+       div.setAttribute("class", "row overflow-auto flex-column");
+        btn.setAttribute("class", "d-none");
+    }
+</script>
